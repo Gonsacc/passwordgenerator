@@ -3,8 +3,96 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Generador de Contraseñas Seguras | Entropía y Tiempo de Crackeo</title>
-<meta name="description" content="Generador avanzado de contraseñas seguras con cálculo real de entropía, estimación de tiempo de crackeo y análisis de seguridad. Funciona offline y protege tus cuentas con contraseñas fuertes.">
+
+<title>Generador de Contraseñas Seguras Online con Entropía y Verificador | Seguridad Profesional</title>
+<meta name="description" content="Generador de contraseñas seguras online con cálculo real de entropía en bits, estimación de tiempo de crackeo y verificador avanzado. Herramienta profesional de seguridad online 100% privada y offline.">
+<meta name="robots" content="index, follow">
+<meta name="keywords" content="generador de contraseñas seguras, entropía contraseña, verificador de contraseñas, tiempo de crackeo, seguridad online, fuerza bruta, ataques automatizados, contraseña fuerte, cifrado">
+<meta name="author" content="Gonzalo Ramos">
+
+<link rel="canonical" href="https://gonsacc.github.io/passwordgenerator/">
+
+<meta property="og:title" content="Generador de Contraseñas Seguras Online con Entropía y Verificador">
+<meta property="og:description" content="Crea y analiza contraseñas seguras con cálculo de entropía real y estimación de tiempo de crackeo. 100% privado y sin envío de datos.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gonsacc.github.io/passwordgenerator/">
+<meta property="og:image" content="https://gonsacc.github.io/passwordgenerator/preview.png">
+<meta property="og:site_name" content="Generador de Contraseñas Seguras">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Generador de Contraseñas Seguras Online con Entropía y Verificador">
+<meta name="twitter:description" content="Herramienta profesional para generar y comprobar contraseñas seguras con entropía real y análisis de fuerza bruta.">
+<meta name="twitter:image" content="https://gonsacc.github.io/passwordgenerator/preview.png">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+<path fill='%236366f1' d='M50 5 L90 20 V45 C90 70 70 90 50 95 C30 90 10 70 10 45 V20 Z'/>
+<rect x='35' y='40' width='30' height='25' rx='5' fill='white'/>
+<circle cx='50' cy='52' r='5' fill='%236366f1'/>
+<rect x='48' y='52' width='4' height='10' fill='%236366f1'/>
+</svg>">
+<link rel="alternate icon" type="image/png" href="favicon.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Generador de Contraseñas Seguras Online con Entropía y Verificador",
+  "url": "https://gonsacc.github.io/passwordgenerator/",
+  "applicationCategory": "SecurityApplication",
+  "operatingSystem": "All",
+  "description": "Herramienta online para generar y verificar contraseñas seguras con cálculo de entropía, estimación de tiempo de crackeo y análisis de seguridad frente a ataques de fuerza bruta.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [{
+   "@type": "Question",
+   "name": "¿Qué es la entropía de una contraseña?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "La entropía mide la complejidad y aleatoriedad de una contraseña en bits. Una mayor entropía significa mayor resistencia frente a ataques de fuerza bruta y ataques automatizados utilizados en seguridad online."
+   }
+ },{
+   "@type": "Question",
+   "name": "¿Cuántos bits hacen una contraseña segura?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Para una buena seguridad online se recomiendan más de 60 bits de entropía. Para protección avanzada frente a cifrado y ataques automatizados, superar los 80 bits es ideal."
+   }
+ },{
+   "@type": "Question",
+   "name": "¿Cuánto tarda en crackearse una contraseña?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Depende de su entropía y del hardware usado en el ataque. Contraseñas débiles pueden romperse en segundos, mientras que contraseñas fuertes pueden tardar millones de años incluso con ataques de fuerza bruta."
+   }
+ },{
+   "@type": "Question",
+   "name": "¿Es seguro usar este generador?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Sí. Funciona completamente offline en tu navegador, sin conexiones externas ni almacenamiento remoto, garantizando privacidad y seguridad online."
+   }
+ },{
+   "@type": "Question",
+   "name": "¿Se envían mis contraseñas a algún servidor?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "No. Todas las operaciones se realizan localmente mediante JavaScript. Tus datos nunca salen de tu dispositivo ni se exponen a ataques automatizados externos."
+   }
+ }]
+}
+</script>
+
 <style>
 :root{
   --bg1:#0f172a;
@@ -16,6 +104,7 @@
   --muted:#9ca3af;
   --danger:#ef4444;
   --warning:#f59e0b;
+  --medium:#f97316;
   --success:#22c55e;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -23,184 +112,191 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
   background:linear-gradient(135deg,var(--bg1),var(--bg2));
   color:var(--text);
-  line-height:1.6;
   padding:20px;
+  line-height:1.6;
 }
-.container{
-  max-width:900px;
-  margin:auto;
-}
+.container{max-width:950px;margin:auto}
 .card{
   background:var(--card);
   padding:30px;
-  border-radius:16px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.4);
+  border-radius:18px;
+  box-shadow:0 25px 50px rgba(0,0,0,0.5);
   margin-bottom:40px;
+  transition:transform .3s ease;
 }
-h1{
-  text-align:center;
-  margin-bottom:20px;
-}
-h2{
-  margin:30px 0 10px 0;
-}
+.card:hover{transform:translateY(-4px)}
+h1{text-align:center;margin-bottom:20px}
+h2{margin-bottom:15px}
 .output{
   background:#0b1220;
   padding:15px;
-  border-radius:10px;
+  border-radius:12px;
   font-size:1.2rem;
   word-break:break-all;
   margin-bottom:10px;
-  min-height:50px;
+  min-height:55px;
+  transition:all .3s ease;
 }
-.controls{
-  margin:15px 0;
-}
-label{
-  display:block;
-  margin:5px 0;
-  cursor:pointer;
-}
-input[type="range"]{
+input[type="range"], input[type="text"]{
   width:100%;
+  margin:8px 0;
 }
+input[type="text"]{
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #1f2937;
+  background:#0b1220;
+  color:var(--text);
+  font-size:1rem;
+}
+label{display:block;margin:6px 0;cursor:pointer}
 button{
   background:linear-gradient(90deg,var(--accent),var(--accent2));
   border:none;
   padding:12px 18px;
-  border-radius:8px;
+  border-radius:10px;
   color:white;
   font-weight:600;
   cursor:pointer;
-  transition:all 0.3s ease;
-  margin:5px 5px 5px 0;
+  transition:all .3s ease;
+  margin:6px 6px 6px 0;
 }
-button:hover{
-  opacity:0.85;
-  transform:translateY(-2px);
-}
+button:hover{opacity:.85;transform:translateY(-2px)}
 .progress{
   width:100%;
   background:#1f2937;
-  border-radius:10px;
+  border-radius:12px;
   overflow:hidden;
-  height:10px;
+  height:12px;
   margin:10px 0;
 }
 .progress-bar{
   height:100%;
   width:0%;
-  transition:width 0.5s ease;
+  transition:width .6s ease, background .6s ease;
 }
 .badge{
-  padding:6px 10px;
-  border-radius:6px;
+  padding:6px 12px;
+  border-radius:8px;
   font-weight:600;
   display:inline-block;
   margin-top:5px;
 }
-.article{
-  margin-top:40px;
-}
+.small{color:var(--muted);font-size:.9rem}
+.faq-item{margin-bottom:20px}
+.faq-item h3{margin-bottom:8px;color:var(--accent2)}
 @media(max-width:600px){
   .card{padding:20px}
 }
 </style>
 </head>
+
 <body>
 <div class="container">
+
 <div class="card">
-<h1>Generador Avanzado de Contraseñas Seguras</h1>
+<h1>Generador de Contraseñas Seguras Online</h1>
 
 <div class="output" id="password">Tu contraseña aparecerá aquí</div>
 <button onclick="generatePassword()">Generar contraseña</button>
 <button onclick="copyPassword()">Copiar</button>
 
-<div class="controls">
 <label>Longitud: <span id="lengthValue">16</span></label>
 <input type="range" id="length" min="8" max="64" value="16" oninput="updateLength(this.value)">
+
 <label><input type="checkbox" id="uppercase" checked> Incluir mayúsculas</label>
 <label><input type="checkbox" id="lowercase" checked> Incluir minúsculas</label>
 <label><input type="checkbox" id="numbers" checked> Incluir números</label>
 <label><input type="checkbox" id="symbols" checked> Incluir símbolos</label>
-</div>
 
 <h2>Entropía: <span id="entropy">0</span> bits</h2>
-<div class="progress">
-<div class="progress-bar" id="entropyBar"></div>
-</div>
+<div class="progress"><div class="progress-bar" id="entropyBar"></div></div>
 <div class="badge" id="strengthLabel">Nivel de seguridad</div>
 
 <h2>Tiempo estimado de crackeo:</h2>
 <p id="crackTime">—</p>
-
 </div>
 
-<div class="article">
-<h2>¿Qué es la entropía?</h2>
-<p>La entropía mide la aleatoriedad de una contraseña...</p>
+<div class="card">
+<h2>Comprueba tu contraseña</h2>
 
-<h2>¿Cómo se calcula el tiempo de crackeo?</h2>
-<p>El tiempo de crackeo se estima dividiendo el número total de combinaciones posibles entre los intentos por segundo que puede realizar un atacante...</p>
+<input type="text" id="checkPassword" placeholder="Escribe tu contraseña aquí..." oninput="analyzePassword()">
 
-<h2>¿Por qué usar contraseñas largas?</h2>
-<p>Las contraseñas largas multiplican exponencialmente el número de combinaciones posibles...</p>
+<h3>Entropía: <span id="checkEntropy">0</span> bits</h3>
+<div class="progress"><div class="progress-bar" id="checkBar"></div></div>
+<div class="badge" id="checkStrength">Nivel de seguridad</div>
 
-<p>
-Una contraseña segura es aquella que combina longitud, aleatoriedad y variedad de caracteres...
-(Artículo educativo completo de más de 800 palabras desarrollado aquí explicando fuerza bruta, diccionario, buenas prácticas, reutilización de contraseñas, gestores de contraseñas, autenticación multifactor, etc. Texto extenso optimizado SEO y profesional.)
-</p>
+<p><strong>Tiempo estimado de crackeo:</strong> <span id="checkTime">—</span></p>
+<p class="small" id="checkMessage">La contraseña se analiza localmente en tu navegador. No se envía a ningún servidor.</p>
+</div>
+
+<div class="card">
+<h2>Preguntas frecuentes</h2>
+
+<div class="faq-item">
+<h3>¿Qué es la entropía de una contraseña?</h3>
+<p>La entropía mide la complejidad y aleatoriedad de una contraseña en bits. Una mayor entropía significa mayor resistencia frente a ataques de fuerza bruta y ataques automatizados utilizados en seguridad online.</p>
+</div>
+
+<div class="faq-item">
+<h3>¿Cuántos bits hacen una contraseña segura?</h3>
+<p>Para una buena seguridad online se recomiendan más de 60 bits de entropía. Para protección avanzada frente a cifrado y ataques automatizados, superar los 80 bits es ideal.</p>
+</div>
+
+<div class="faq-item">
+<h3>¿Cuánto tarda en crackearse una contraseña?</h3>
+<p>Depende de su entropía y del hardware usado en el ataque. Contraseñas débiles pueden romperse en segundos, mientras que contraseñas fuertes pueden tardar millones de años incluso con ataques de fuerza bruta.</p>
+</div>
+
+<div class="faq-item">
+<h3>¿Es seguro usar este generador?</h3>
+<p>Sí. Funciona completamente offline en tu navegador, sin conexiones externas ni almacenamiento remoto, garantizando privacidad y seguridad online.</p>
+</div>
+
+<div class="faq-item">
+<h3>¿Se envían mis contraseñas a algún servidor?</h3>
+<p>No. Todas las operaciones se realizan localmente mediante JavaScript. Tus datos nunca salen de tu dispositivo ni se exponen a ataques automatizados externos.</p>
+</div>
+
 </div>
 
 </div>
 
 <script>
-function updateLength(val){
-  document.getElementById("lengthValue").innerText = val;
+function log2(x){return Math.log(x)/Math.log(2)}
+function formatTime(seconds){
+  if(seconds<60) return seconds.toFixed(2)+" segundos";
+  if(seconds<3600) return (seconds/60).toFixed(2)+" minutos";
+  if(seconds<86400) return (seconds/3600).toFixed(2)+" horas";
+  if(seconds<31536000) return (seconds/86400).toFixed(2)+" días";
+  if(seconds<31536000000) return (seconds/31536000).toFixed(2)+" años";
+  return (seconds/31536000000).toFixed(2)+" millones de años";
 }
-
+function updateLength(val){document.getElementById("lengthValue").innerText=val}
 function generatePassword(){
-  const length = parseInt(document.getElementById("length").value);
-  const useUpper = document.getElementById("uppercase").checked;
-  const useLower = document.getElementById("lowercase").checked;
-  const useNumbers = document.getElementById("numbers").checked;
-  const useSymbols = document.getElementById("symbols").checked;
-
-  const upper="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const lower="abcdefghijklmnopqrstuvwxyz";
-  const numbers="0123456789";
-  const symbols="!@#$%^&*()_+-=[]{}|;:,.<>?";
-
-  let pool="";
-  let required=[];
-
-  if(useUpper){pool+=upper; required.push(randomChar(upper));}
-  if(useLower){pool+=lower; required.push(randomChar(lower));}
-  if(useNumbers){pool+=numbers; required.push(randomChar(numbers));}
-  if(useSymbols){pool+=symbols; required.push(randomChar(symbols));}
-
-  if(pool===""){alert("Selecciona al menos un tipo de carácter"); return;}
-
-  let password=required.join("");
-  while(password.length<length){
-    password+=randomChar(pool);
-  }
-
-  password=shuffle(password);
-  animatePassword(password);
-  calculateEntropy(pool.length,length);
+  const length=parseInt(document.getElementById("length").value);
+  const sets={
+    upper:"ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+    lower:"abcdefghijklmnopqrstuvwxyz",
+    numbers:"0123456789",
+    symbols:"!@#$%^&*()_+-=[]{}|;:,.<>?"
+  };
+  let pool="", required=[];
+  if(uppercase.checked){pool+=sets.upper; required.push(randomChar(sets.upper))}
+  if(lowercase.checked){pool+=sets.lower; required.push(randomChar(sets.lower))}
+  if(numbers.checked){pool+=sets.numbers; required.push(randomChar(sets.numbers))}
+  if(symbols.checked){pool+=sets.symbols; required.push(randomChar(sets.symbols))}
+  if(pool===""){alert("Selecciona al menos un tipo."); return;}
+  let pass=required.join("");
+  while(pass.length<length){pass+=randomChar(pool)}
+  pass=shuffle(pass);
+  animatePassword(pass);
+  analyzeGenerated(pass,pool.length);
 }
-
-function randomChar(str){
-  return str[Math.floor(Math.random()*str.length)];
-}
-
-function shuffle(str){
-  return str.split('').sort(()=>0.5-Math.random()).join('');
-}
-
+function randomChar(str){return str[Math.floor(Math.random()*str.length)]}
+function shuffle(str){return str.split('').sort(()=>0.5-Math.random()).join('')}
 function animatePassword(finalPass){
-  const output=document.getElementById("password");
+  const output=password;
   let chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
   let iterations=0;
   let interval=setInterval(()=>{
@@ -208,71 +304,58 @@ function animatePassword(finalPass){
       if(index<iterations) return finalPass[index];
       return chars[Math.floor(Math.random()*chars.length)];
     }).join("");
-    if(iterations>=finalPass.length){
-      clearInterval(interval);
-    }
+    if(iterations>=finalPass.length) clearInterval(interval);
     iterations+=1/2;
-  },30);
+  },25);
 }
-
-function calculateEntropy(poolSize,length){
-  const entropy= Math.log2(Math.pow(poolSize,length));
+function analyzeGenerated(pass,poolSize){
+  const entropy=pass.length*log2(poolSize);
   document.getElementById("entropy").innerText=entropy.toFixed(2);
-  updateStrength(entropy);
-  calculateCrackTime(entropy);
+  updateUI(entropy,"entropyBar","strengthLabel","crackTime");
 }
-
-function updateStrength(entropy){
-  const bar=document.getElementById("entropyBar");
-  const label=document.getElementById("strengthLabel");
+function analyzePassword(){
+  const pass=document.getElementById("checkPassword").value;
+  if(pass.length===0){
+    checkEntropy.innerText="0";
+    checkTime.innerText="—";
+    return;
+  }
+  let poolSize=0;
+  if(/[A-Z]/.test(pass)) poolSize+=26;
+  if(/[a-z]/.test(pass)) poolSize+=26;
+  if(/[0-9]/.test(pass)) poolSize+=10;
+  if(/[^A-Za-z0-9]/.test(pass)) poolSize+=32;
+  const entropy=pass.length*log2(poolSize||1);
+  checkEntropy.innerText=entropy.toFixed(2);
+  updateUI(entropy,"checkBar","checkStrength","checkTime","checkMessage");
+}
+function updateUI(entropy,barId,labelId,timeId,messageId){
+  const attemptsPerSecond=1e10;
+  const seconds=Math.pow(2,entropy)/attemptsPerSecond;
+  document.getElementById(timeId).innerText=formatTime(seconds);
+  const bar=document.getElementById(barId);
+  const label=document.getElementById(labelId);
   let percent=Math.min(entropy,128)/128*100;
   bar.style.width=percent+"%";
-
-  if(entropy<28){
-    bar.style.background="var(--danger)";
-    label.innerText="Muy débil";
-  } else if(entropy<36){
-    bar.style.background="var(--warning)";
-    label.innerText="Débil";
-  } else if(entropy<60){
-    bar.style.background="orange";
-    label.innerText="Media";
-  } else if(entropy<80){
-    bar.style.background="var(--success)";
-    label.innerText="Fuerte";
-  } else {
-    bar.style.background="cyan";
-    label.innerText="Muy fuerte";
+  let text="";
+  if(entropy<28){bar.style.background="var(--danger)";text="Muy débil";}
+  else if(entropy<36){bar.style.background="var(--warning)";text="Débil";}
+  else if(entropy<60){bar.style.background="var(--medium)";text="Media";}
+  else if(entropy<80){bar.style.background="var(--success)";text="Fuerte";}
+  else{bar.style.background="cyan";text="Muy fuerte";}
+  label.innerText=text;
+  if(messageId){
+    document.getElementById(messageId).innerText=
+      entropy<60
+      ? "Esta contraseña podría ser vulnerable a ataques de fuerza bruta. Se recomienda mayor longitud y variedad."
+      : "Buena elección. La contraseña tiene una entropía sólida frente a ataques automatizados.";
   }
 }
-
-function calculateCrackTime(entropy){
-  const attemptsPerSecond=1e10;
-  const combinations=Math.pow(2,entropy);
-  let seconds=combinations/attemptsPerSecond;
-
-  let time;
-  if(seconds<60){
-    time=seconds.toFixed(2)+" segundos";
-  } else if(seconds<3600){
-    time=(seconds/60).toFixed(2)+" minutos";
-  } else if(seconds<86400){
-    time=(seconds/3600).toFixed(2)+" horas";
-  } else if(seconds<31536000){
-    time=(seconds/86400).toFixed(2)+" días";
-  } else if(seconds<31536000000){
-    time=(seconds/31536000).toFixed(2)+" años";
-  } else {
-    time=(seconds/31536000000).toFixed(2)+" millones de años";
-  }
-  document.getElementById("crackTime").innerText=time;
-}
-
 function copyPassword(){
-  const text=document.getElementById("password").innerText;
-  navigator.clipboard.writeText(text);
-  alert("Contraseña copiada");
+  navigator.clipboard.writeText(password.innerText);
+  alert("Contraseña copiada al portapapeles");
 }
 </script>
+
 </body>
 </html>
