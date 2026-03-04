@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>¿Cuántos bits debe tener una contraseña segura? Entropía y niveles recomendados</title>
+    <meta name="description" content="Descubre cuántos bits debe tener una contraseña segura, qué significa la entropía y si 60 u 80 bits son suficientes. Guía técnica y práctica para elegir la seguridad adecuada.">
+    <meta name="keywords" content="cuantos bits debe tener una contraseña, entropía contraseña segura, bits recomendados contraseña, contraseña 60 bits es segura, contraseña 80 bits seguridad">
+    <meta name="author" content="Gonzalo Ramos">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://gonsacc.github.io/passwordgenerator/cuantos-bits-debe-tener-una-contraseña-segura.html">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="¿Cuántos bits debe tener una contraseña segura?">
+    <meta property="og:description" content="Guía completa sobre entropía, bits recomendados y niveles reales de seguridad en contraseñas modernas.">
+    <meta property="og:url" content="https://gonsacc.github.io/passwordgenerator/cuantos-bits-debe-tener-una-contraseña-segura.html">
+    <meta property="og:site_name" content="Generador de Contraseñas Seguras">
+    <meta property="og:image" content="https://gonsacc.github.io/passwordgenerator/preview.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="¿Cuántos bits debe tener una contraseña segura?">
+    <meta name="twitter:description" content="Aprende qué es la entropía y cuántos bits hacen que una contraseña sea realmente segura.">
+    <meta name="twitter:image" content="https://gonsacc.github.io/passwordgenerator/preview.png">
+
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --accent: #3b82f6;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #111827);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 2rem 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.6rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        th {
+            background-color: #111827;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .button-back {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent);
+            color: white;
+            border-radius: 8px;
+            transition: 0.3s ease;
+        }
+
+        .button-back:hover {
+            opacity: 0.85;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+
+    <!-- Schema Article -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "¿Cuántos bits debe tener una contraseña segura?",
+      "author": {
+        "@type": "Person",
+        "name": "Gonzalo Ramos"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Generador de Contraseñas Seguras"
+      },
+      "mainEntityOfPage": "https://gonsacc.github.io/passwordgenerator/cuantos-bits-debe-tener-una-contraseña-segura.html",
+      "description": "Guía completa sobre cuántos bits debe tener una contraseña segura y cómo calcular la entropía."
+    }
+    </script>
+
+    <!-- Schema FAQ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "¿Es suficiente una contraseña de 60 bits?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Para la mayoría de servicios online, 60 bits pueden ser suficientes si la contraseña es única y bien generada, pero para alta seguridad se recomienda 80 bits o más."
+        }
+      },{
+        "@type": "Question",
+        "name": "¿Cuántos bits recomiendan los expertos en seguridad?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Generalmente se recomienda un mínimo de 80 bits de entropía para contraseñas críticas y más de 100 bits para máxima protección."
+        }
+      },{
+        "@type": "Question",
+        "name": "¿Más longitud siempre significa más bits?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí, siempre que se utilice un conjunto amplio de caracteres. La entropía aumenta cuando crece la longitud y la variedad del pool de caracteres."
+        }
+      },{
+        "@type": "Question",
+        "name": "¿Qué pasa si reutilizo una contraseña de alta entropía?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Reutilizar contraseñas reduce drásticamente la seguridad, incluso si tienen alta entropía, porque una filtración compromete todos los servicios."
+        }
+      }]
+    }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>¿Cuántos bits debe tener una contraseña segura?</h1>
+
+        <p>Cuando hablamos de seguridad digital, una de las preguntas más frecuentes es: <strong>cuántos bits debe tener una contraseña segura</strong>. No se trata solo de longitud o de incluir símbolos, sino de algo más profundo: la entropía. Entender este concepto te permitirá saber si una contraseña de 60 bits es segura, si necesitas 80 bits o cuándo deberías apuntar a 100 bits o más.</p>
+
+        <h2>Qué son los bits en una contraseña</h2>
+        <p>Los bits miden la cantidad de información o incertidumbre en una contraseña. Cuantos más bits tenga, más combinaciones posibles existen y más difícil será para un atacante acertarla mediante fuerza bruta o ataques automatizados.</p>
+
+        <p>Por ejemplo, una contraseña con 40 bits de entropía tiene aproximadamente 1 billón de combinaciones posibles. Una de 80 bits tiene más combinaciones que átomos estimados en la Tierra. Esa diferencia es exponencial, no lineal.</p>
+
+        <h2>Qué es la entropía y cómo se calcula</h2>
+        <p>La entropía de una contraseña se calcula con la fórmula:</p>
+
+        <div class="card">
+            Entropía = log2(pool de caracteres^longitud)
+        </div>
+
+        <p>Si utilizas 94 caracteres posibles (mayúsculas, minúsculas, números y símbolos) y una longitud de 12 caracteres:</p>
+        <p>Entropía ≈ log2(94^12) ≈ 78 bits.</p>
+
+        <p>Eso significa que tu contraseña tiene aproximadamente 78 bits de entropía, lo cual es considerado fuerte en la mayoría de contextos.</p>
+
+        <h2>¿Son suficientes 60 bits?</h2>
+        <p>Una contraseña de 60 bits puede resistir ataques de fuerza bruta durante años si el atacante no dispone de hardware especializado. Sin embargo, con GPUs modernas capaces de realizar miles de millones de intentos por segundo, 60 bits puede ser aceptable para servicios comunes, pero no ideal para información crítica.</p>
+
+        <p>Para cuentas bancarias, gestores de contraseñas o sistemas empresariales, se recomienda superar los 80 bits de entropía.</p>
+
+        <h2>¿Cuándo necesitas más de 80 bits?</h2>
+        <p>Necesitas más de 80 bits cuando:</p>
+        <ul>
+            <li>Proteges activos financieros.</li>
+            <li>Gestionas datos empresariales sensibles.</li>
+            <li>Tu cuenta da acceso a múltiples sistemas.</li>
+            <li>Quieres protección a largo plazo (10+ años).</li>
+        </ul>
+
+        <p>En estos casos, una contraseña de 100 bits o más ofrece un margen de seguridad extremadamente alto frente a ataques automatizados y futuros avances en hardware.</p>
+
+        <h2>Comparativa: 40 vs 60 vs 80 vs 100 bits</h2>
+
+        <table>
+            <tr>
+                <th>Bits</th>
+                <th>Combinaciones Aproximadas</th>
+                <th>Nivel de Seguridad</th>
+            </tr>
+            <tr>
+                <td>40 bits</td>
+                <td>1 billón</td>
+                <td>Bajo (inseguro hoy)</td>
+            </tr>
+            <tr>
+                <td>60 bits</td>
+                <td>1 quintillón</td>
+                <td>Moderado</td>
+            </tr>
+            <tr>
+                <td>80 bits</td>
+                <td>1 septillón</td>
+                <td>Alto</td>
+            </tr>
+            <tr>
+                <td>100 bits</td>
+                <td>1 nonillón</td>
+                <td>Muy alto</td>
+            </tr>
+        </table>
+
+        <h2>Recomendaciones prácticas según el uso</h2>
+        <p>Para redes sociales o foros, 60–70 bits pueden ser suficientes si activas autenticación en dos pasos.</p>
+        <p>Para correo electrónico principal: mínimo 80 bits.</p>
+        <p>Para banca online o almacenamiento cifrado: 100 bits o más.</p>
+
+        <h2>Cómo generar contraseñas con la entropía adecuada</h2>
+        <p>La forma más sencilla de alcanzar la entropía recomendada es utilizar un generador aleatorio real que incluya mayúsculas, minúsculas, números y símbolos. Puedes usar nuestro 
+        <a href="https://gonsacc.github.io/passwordgenerator/">Generador de Contraseñas Seguras Online</a> 
+        para crear contraseñas con la entropía exacta que necesitas.</p>
+
+        <p>Evita patrones como fechas, nombres o palabras comunes. Aunque sean largas, si siguen un patrón predecible reducen drásticamente la entropía real.</p>
+
+        <div class="card">
+            <h2>Conclusión</h2>
+            <p>Si te preguntas cuántos bits debe tener una contraseña segura, la respuesta depende del nivel de protección que necesites. Como regla general:</p>
+            <ul>
+                <li>Mínimo recomendable: 60 bits</li>
+                <li>Seguro para la mayoría de usos: 80 bits</li>
+                <li>Alta seguridad a largo plazo: 100+ bits</li>
+            </ul>
+        </div>
+
+        <div style="text-align:center;">
+            <a class="button-back" href="https://gonsacc.github.io/passwordgenerator/">Volver al generador</a>
+        </div>
+    </div>
+</body>
+</html>
