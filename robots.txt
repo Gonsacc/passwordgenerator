@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gonsacc.github.io/passwordgenerator/sitemap.xml
