@@ -27,7 +27,9 @@
 <meta name="twitter:description" content="Herramienta profesional para generar y comprobar contraseñas seguras con entropía real y análisis de fuerza bruta.">
 <meta name="twitter:image" content="https://gonsacc.github.io/passwordgenerator/preview.png">
 
+<link rel="icon" href="/passwordgenerator/favicon.ico">
 <link rel="icon" href="favicon.ico">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -116,11 +118,15 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-  background:transparent;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
   color:var(--text);
   padding:20px;
   line-height:1.6;
   min-height:100vh;
+  background-attachment:fixed;
+}
+html{
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
 }
 .container{max-width:950px;margin:auto}
 .card{
@@ -194,9 +200,6 @@ button:hover{opacity:.85;transform:translateY(-2px)}
 .faq-item h3{margin-bottom:8px;color:var(--accent2)}
 @media(max-width:600px){
   .card{padding:20px}
-}
-html{
-  background:linear-gradient(135deg,var(--bg1),var(--bg2));
 }
 </style>
 </head>
@@ -349,97 +352,217 @@ html{
 </div>
 
 <script>
-function log2(x){return Math.log(x)/Math.log(2)}
+const uppercase = document.getElementById("uppercase");
+const lowercase = document.getElementById("lowercase");
+const numbers = document.getElementById("numbers");
+const symbols = document.getElementById("symbols");
+const password = document.getElementById("password");
+const checkEntropy = document.getElementById("checkEntropy");
+const checkTime = document.getElementById("checkTime");
+function log2(x){ return Math.log(x)/Math.log(2); }
+
+// =============================
+// 🔐 GENERADOR CRIPTOGRÁFICO
+// =============================
+
+// Genera entero seguro sin sesgo de módulo
+function secureRandomInt(max){
+  const maxUint = 0x100000000;
+  const limit = maxUint - (maxUint % max);
+  const array = new Uint32Array(1);
+  let rand;
+  do{
+    crypto.getRandomValues(array);
+    rand = array[0];
+  } while(rand >= limit);
+  return rand % max;
+}
+
+function randomChar(str){
+  return str[secureRandomInt(str.length)];
+}
+
+function shuffleSecure(str){
+  let arr = str.split('');
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = secureRandomInt(i + 1);
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr.join('');
+}
+
+// =============================
+// ⏳ FORMATO DE TIEMPO
+// =============================
+
 function formatTime(seconds){
-  if(seconds<60) return seconds.toFixed(2)+" segundos";
-  if(seconds<3600) return (seconds/60).toFixed(2)+" minutos";
-  if(seconds<86400) return (seconds/3600).toFixed(2)+" horas";
-  if(seconds<31536000) return (seconds/86400).toFixed(2)+" días";
-  if(seconds<31536000000) return (seconds/31536000).toFixed(2)+" años";
+  if(!isFinite(seconds)) return "Incalculable";
+
+  if(seconds < 1) return "menos de 1 segundo";
+  if(seconds < 60) return seconds.toFixed(2)+" segundos";
+  if(seconds < 3600) return (seconds/60).toFixed(2)+" minutos";
+  if(seconds < 86400) return (seconds/3600).toFixed(2)+" horas";
+  if(seconds < 31536000) return (seconds/86400).toFixed(2)+" días";
+  if(seconds < 31536000000) return (seconds/31536000).toFixed(2)+" años";
   return (seconds/31536000000).toFixed(2)+" millones de años";
 }
-function updateLength(val){document.getElementById("lengthValue").innerText=val}
+
+// =============================
+// 🎚️ UI
+// =============================
+
+function updateLength(val){
+  document.getElementById("lengthValue").innerText = val;
+}
+
 function generatePassword(){
-  const length=parseInt(document.getElementById("length").value);
-  const sets={
+  const length = parseInt(document.getElementById("length").value);
+
+  const sets = {
     upper:"ABCDEFGHIJKLMNOPQRSTUVWXYZ",
     lower:"abcdefghijklmnopqrstuvwxyz",
     numbers:"0123456789",
     symbols:"!@#$%^&*()_+-=[]{}|;:,.<>?"
   };
-  let pool="", required=[];
-  if(uppercase.checked){pool+=sets.upper; required.push(randomChar(sets.upper))}
-  if(lowercase.checked){pool+=sets.lower; required.push(randomChar(sets.lower))}
-  if(numbers.checked){pool+=sets.numbers; required.push(randomChar(sets.numbers))}
-  if(symbols.checked){pool+=sets.symbols; required.push(randomChar(sets.symbols))}
-  if(pool===""){alert("Selecciona al menos un tipo."); return;}
-  let pass=required.join("");
-  while(pass.length<length){pass+=randomChar(pool)}
-  pass=shuffle(pass);
-  animatePassword(pass);
-  analyzeGenerated(pass,pool.length);
-}
-function randomChar(str){return str[Math.floor(Math.random()*str.length)]}
-function shuffle(str){return str.split('').sort(()=>0.5-Math.random()).join('')}
-function animatePassword(finalPass){
-  const output=password;
-  let chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
-  let iterations=0;
-  let interval=setInterval(()=>{
-    output.innerText=finalPass.split("").map((letter,index)=>{
-      if(index<iterations) return finalPass[index];
-      return chars[Math.floor(Math.random()*chars.length)];
-    }).join("");
-    if(iterations>=finalPass.length) clearInterval(interval);
-    iterations+=1/2;
-  },25);
-}
-function analyzeGenerated(pass,poolSize){
-  const entropy=pass.length*log2(poolSize);
-  document.getElementById("entropy").innerText=entropy.toFixed(2);
-  updateUI(entropy,"entropyBar","strengthLabel","crackTime");
-}
-function analyzePassword(){
-  const pass=document.getElementById("checkPassword").value;
-  if(pass.length===0){
-    checkEntropy.innerText="0";
-    checkTime.innerText="—";
+
+  let pool = "";
+  let required = [];
+
+  if(uppercase.checked){
+    pool += sets.upper;
+    required.push(randomChar(sets.upper));
+  }
+  if(lowercase.checked){
+    pool += sets.lower;
+    required.push(randomChar(sets.lower));
+  }
+  if(numbers.checked){
+    pool += sets.numbers;
+    required.push(randomChar(sets.numbers));
+  }
+  if(symbols.checked){
+    pool += sets.symbols;
+    required.push(randomChar(sets.symbols));
+  }
+
+  if(pool === ""){
+    alert("Selecciona al menos un tipo de carácter.");
     return;
   }
-  let poolSize=0;
-  if(/[A-Z]/.test(pass)) poolSize+=26;
-  if(/[a-z]/.test(pass)) poolSize+=26;
-  if(/[0-9]/.test(pass)) poolSize+=10;
-  if(/[^A-Za-z0-9]/.test(pass)) poolSize+=32;
-  const entropy=pass.length*log2(poolSize||1);
-  checkEntropy.innerText=entropy.toFixed(2);
+
+  let pass = required.join("");
+
+  while(pass.length < length){
+    pass += randomChar(pool);
+  }
+
+  pass = shuffleSecure(pass);
+
+  password.innerText = pass;
+
+  analyzeGenerated(pass, pool.length);
+}
+
+// =============================
+// 📊 ENTROPÍA
+// =============================
+
+function analyzeGenerated(pass, poolSize){
+  const entropy = pass.length * log2(poolSize);
+  document.getElementById("entropy").innerText = entropy.toFixed(2);
+  updateUI(entropy,"entropyBar","strengthLabel","crackTime");
+}
+
+function analyzePassword(){
+  const pass = document.getElementById("checkPassword").value;
+
+  if(pass.length === 0){
+    checkEntropy.innerText = "0";
+    checkTime.innerText = "—";
+    document.getElementById("checkBar").style.width = "0%";
+    document.getElementById("checkStrength").innerText = "Nivel de seguridad";
+    return;
+  }
+
+  let poolSize = 0;
+
+  if(/[A-Z]/.test(pass)) poolSize += 26;
+  if(/[a-z]/.test(pass)) poolSize += 26;
+  if(/[0-9]/.test(pass)) poolSize += 10;
+  if(/[^A-Za-z0-9]/.test(pass)) poolSize += 32;
+
+  if(poolSize === 0) return;
+
+  const entropy = pass.length * log2(poolSize);
+
+  checkEntropy.innerText = entropy.toFixed(2);
   updateUI(entropy,"checkBar","checkStrength","checkTime","checkMessage");
 }
-function updateUI(entropy,barId,labelId,timeId,messageId){
-  const attemptsPerSecond=1e10;
-  const seconds=Math.pow(2,entropy)/attemptsPerSecond;
-  document.getElementById(timeId).innerText=formatTime(seconds);
-  const bar=document.getElementById(barId);
-  const label=document.getElementById(labelId);
-  let percent=Math.min(entropy,128)/128*100;
-  bar.style.width=percent+"%";
+
+// =============================
+// 🔎 CÁLCULO DE CRACKEO
+// =============================
+
+function updateUI(entropy, barId, labelId, timeId, messageId){
+
+  // 100 mil millones intentos/seg (GPU moderna hash rápido)
+  const attemptsPerSecond = 1e11;
+
+  const seconds = Math.pow(2, entropy) / attemptsPerSecond;
+
+  document.getElementById(timeId).innerText = formatTime(seconds);
+
+  const bar = document.getElementById(barId);
+  const label = document.getElementById(labelId);
+
+  let percent = Math.min(entropy, 128)/128*100;
+  bar.style.width = percent+"%";
+
   let text="";
-  if(entropy<28){bar.style.background="var(--danger)";text="Muy débil";}
-  else if(entropy<36){bar.style.background="var(--warning)";text="Débil";}
-  else if(entropy<60){bar.style.background="var(--medium)";text="Media";}
-  else if(entropy<80){bar.style.background="var(--success)";text="Fuerte";}
-  else{bar.style.background="cyan";text="Muy fuerte";}
-  label.innerText=text;
+
+  if(entropy < 28){
+    bar.style.background="var(--danger)";
+    text="Muy débil";
+  }
+  else if(entropy < 36){
+    bar.style.background="var(--warning)";
+    text="Débil";
+  }
+  else if(entropy < 60){
+    bar.style.background="var(--medium)";
+    text="Media";
+  }
+  else if(entropy < 80){
+    bar.style.background="var(--success)";
+    text="Fuerte";
+  }
+  else{
+    bar.style.background="var(--accent2)";
+    text="Muy fuerte";
+  }
+
+  label.innerText = text;
+
   if(messageId){
-    document.getElementById(messageId).innerText=
-      entropy<60
+    document.getElementById(messageId).innerText =
+      entropy < 60
       ? "Esta contraseña podría ser vulnerable a ataques de fuerza bruta. Se recomienda mayor longitud y variedad."
-      : "Buena elección. La contraseña tiene una entropía sólida frente a ataques automatizados.";
+      : "Buena elección. La contraseña presenta alta entropía frente a ataques automatizados.";
   }
 }
+
+// =============================
+// 📋 COPIAR
+// =============================
+
 function copyPassword(){
-  navigator.clipboard.writeText(password.innerText);
-  alert("Contraseña copiada al portapapeles");
+  navigator.clipboard.writeText(password.innerText)
+    .then(() => {
+      alert("Contraseña copiada al portapapeles");
+    })
+    .catch(() => {
+      alert("No se pudo copiar automáticamente.");
+    });
 }
 </script>
 
